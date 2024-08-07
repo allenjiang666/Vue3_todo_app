@@ -7,7 +7,6 @@
       </h1>
       <p class="text-lg font-normal text-gray-500 lg:text-xl w-">Today's Date: {{ formattedDate }}.</p>
 
-
       <div class="mt-8">
         <input type="text" 
           v-model="new_todo"
@@ -16,55 +15,57 @@
           placeholder="What is your task?" >
       </div>
 
-
       <div class="mt-8 text-lg">
-        <ul>
-          <li class="bg-gray-100 text-gray-600 rounded-lg p-5 m-5 drop-shadow-md text-center
-                  hover:transform hover:scale-105 hover:shadow-lg transition-transform duration-300 ease-in-out"
-            v-for="todo in todo_list" :key="todo.id"
-            >
-            <div class="flex justify-between">
-              <div :class="{'line-through':todo.isDone}" class="decoration-6">{{ todo.content}}</div>
-            <div>
-              <i class="fa-solid fa-check ml-4 text-xl text-green-400 cursor-pointer" @click="todo.isDone = !todo.isDone "></i>
-              <i class="fa-regular fa-trash-can text-xl text-red-400 ml-4 cursor-pointer"  @click="removeTask(todo.id)"></i> 
+        <draggable v-model="todo_list" item-key="id" class="todo-list">
+          <transition-group>
+            <div v-for="todo in todo_list" :key="todo.id">
+              <li class="bg-gray-100 text-gray-600 rounded-lg p-5 m-5 drop-shadow-md text-center
+                      hover:transform hover:scale-105 hover:shadow-lg transition-transform duration-300 ease-in-out">
+                <div class="flex justify-between">
+                  <div :class="{'line-through':todo.isDone}" class="decoration-6">{{ todo.content }}</div>
+                  <div>
+                    <i class="fa-solid fa-check ml-4 text-xl text-green-400 cursor-pointer" @click="todo.isDone = !todo.isDone"></i>
+                    <i class="fa-regular fa-trash-can text-xl text-red-400 ml-4 cursor-pointer" @click="removeTask(todo.id)"></i> 
+                  </div>
+                </div>
+              </li>
             </div>
-            </div>
-
-          </li>
-        </ul>
-
+          </transition-group>
+        </draggable>
       </div>
-      
     </div>
   </div>
-
 </template>
 
 <script setup>
-import { ref,computed } from 'vue';
+import { ref, computed } from 'vue';
+import draggable from 'vuedraggable';
 
-let id =0
+let id = 0;
 
-const new_todo = ref('')
-const todo_list = ref([])
-const currentDate = ref(new Date())
+const new_todo = ref('');
+const todo_list = ref([]);
+const currentDate = ref(new Date());
 
 const formattedDate = computed(() => {
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return currentDate.value.toLocaleDateString('en-US', options);
-    })
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return currentDate.value.toLocaleDateString('en-US', options);
+});
 
-function addTodo(){
-  todo_list.value.push({ id: id++, content: new_todo.value, done:false },)
-  new_todo.value = ''
-
+function addTodo() {
+  todo_list.value.push({ id: id++, content: new_todo.value, isDone: false });
+  new_todo.value = '';
 }
 
-function removeTask(id){
-  console.log(id)
-  todo_list.value = todo_list.value.filter((t)=> t.id != id)
-  console.log(todo_list.value)
+function removeTask(id) {
+  todo_list.value = todo_list.value.filter((t) => t.id !== id);
 }
-
 </script>
+
+<style>
+.todo-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
