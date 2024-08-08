@@ -17,9 +17,8 @@
 
       <div class="mt-8 text-lg">
         <ul>
-          <VueDraggableNext class="dragArea list-group w-full" :list="list">
-
-            <li class="bg-gray-100 text-gray-600 rounded-lg p-5 m-5 drop-shadow-md text-center
+          <VueDraggableNext class="dragArea list-group" :list="list">
+            <li class="bg-gray-100 text-gray-600 rounded-lg my-5 p-5 drop-shadow-md text-center
                   hover:transform hover:scale-105 hover:shadow-lg transition-transform duration-300 ease-in-out"
               v-for="todo in todo_list" :key="todo.id">
               <div class="flex justify-between">
@@ -36,24 +35,7 @@
         </ul>
 
       </div>
-      <!-- <div class="mt-8 text-lg">
-        <VueDraggableNext class="dragArea list-group w-full" :list="todo_list" @change="log">
-          <transition-group>
-            <li v-for="todo in todo_list" :key="todo.id" class="list-group-item bg-gray-100 text-gray-600 rounded-lg p-5 m-5 drop-shadow-md text-center
-                hover:transform hover:scale-105 hover:shadow-lg transition-transform duration-300 ease-in-out">
-              <div class="flex justify-between">
-                <div :class="{ 'line-through': todo.isDone }" class="decoration-6">{{ todo.content }}</div>
-                <div>
-                  <i class="fa-solid fa-check ml-4 text-xl text-green-400 cursor-pointer"
-                    @click="todo.isDone = !todo.isDone"></i>
-                  <i class="fa-regular fa-trash-can text-xl text-red-400 ml-4 cursor-pointer"
-                    @click="removeTask(todo.id)"></i>
-                </div>
-              </div>
-            </li>
-          </transition-group>
-        </VueDraggableNext>
-      </div> -->
+
     </div>
   </div>
 </template>
@@ -83,17 +65,3 @@ function removeTask(id) {
 }
 
 </script>
-
-<style>
-.todo-list {
-  list-style-type: none;
-  /* Removes the default bullet points */
-  padding: 0;
-  margin: 0;
-}
-
-.list-group-item {
-  list-style-type: none;
-  /* Ensure individual list items do not have bullets */
-}
-</style>
